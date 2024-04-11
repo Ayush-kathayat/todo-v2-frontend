@@ -24,30 +24,31 @@ const Register = () => {
 
   const onSubmit = (data: T_registerSchema) => {
     console.log(data);
-reset();
-    
+    reset();
   };
 
   return (
     <div className="form-wrapper">
-      <form className = "form"onSubmit={handleSubmit(onSubmit)}>
-        <h2>Register</h2>
+      <form noValidate className="form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="form-title-wrapper">
+          <h2 className="form-title">Time to Dive In</h2>
+        </div>
         <input
-          className="input-name"
+          className="input input-name"
           type="text"
           placeholder="Username"
           {...register("username")} //! same as register("username", {required: "Username is required"})
         />
         {errors.username && <p>{errors.username.message}</p>}
         <input
-          className="input-email"
+          className="input input-email"
           type="email"
           placeholder="Email"
           {...register("email")}
         />
         {errors.email && <p>{errors.email.message}</p>}
         <input
-          className="input-password"
+          className="input input-password"
           type="password"
           placeholder="Password"
           {...register("password")}
