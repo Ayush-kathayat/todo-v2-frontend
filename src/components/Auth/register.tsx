@@ -22,8 +22,18 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: T_registerSchema) => {
-    console.log(data);
+  const onSubmit = async (data: T_registerSchema) => {
+
+
+    const response = await fetch("http://localhost:5050/api/v2/register", {
+      method : "POST",      
+      headers:{                                                             //! for the server to know what type of data is being sent
+        'content-type': 'application/json'
+      },
+      body : JSON.stringify(data), //! data is being sent in the form of a string
+    });
+
+    console.log(response);
     reset();
   };
 
@@ -52,9 +62,9 @@ const Register = () => {
           {...register("password")}
         />
         {errors.password && <p className = "form-errors" >{errors.password.message}</p>}
-        <button className="btn sbumit-btn" type="submit" disabled={isSubmitting}>
+       {isSubmitting ? <Loader/>  : <button className="btn sbumit-btn" type="submit" disabled={isSubmitting}>
           Register
-        </button>
+        </button> }
       </form>
     </div>
   );

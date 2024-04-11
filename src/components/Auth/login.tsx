@@ -18,7 +18,9 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<T_loginSchema>({ resolver: zodResolver(loginSchema) });
 
-  const onSubmit = (data: T_loginSchema) => {
+  const onSubmit = async (data: T_loginSchema) => {
+
+    const response  = await fetch();
     console.log(data);
   };
   return (
