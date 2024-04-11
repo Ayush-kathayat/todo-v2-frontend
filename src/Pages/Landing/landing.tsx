@@ -30,7 +30,7 @@ const Landing = () => {
             Elevate Your Productivity with Our Dynamic Todo App{" "}
           </p>{" "}
         </div>
-        <CSSTransition
+        {/* <CSSTransition
           in={isLoginForm}
           timeout={500}
           classNames="fade"
@@ -45,7 +45,8 @@ const Landing = () => {
           unmountOnExit
         >
           <Register />
-        </CSSTransition>
+        </CSSTransition> */}
+        {isLoginForm ? <Login /> : <Register />}
         <div className="login-register">
           {isLoginForm ? (
             <p className="switch-form-link" onClick={handleRegisterClick}>
