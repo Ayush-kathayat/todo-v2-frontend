@@ -44,6 +44,7 @@
   --secondary: #1e1e1e;
   --accent: #76ABAE;
   --visited : #EEEEEE;
+  --error : #FF204E;
   background-color: var(--background);
   color: var(--text);
 

@@ -30,31 +30,29 @@ const Register = () => {
   return (
     <div className="form-wrapper">
       <form noValidate className="form" onSubmit={handleSubmit(onSubmit)}>
-        <div className="form-title-wrapper">
-          <h2 className="form-title">Time to Dive In</h2>
-        </div>
+        <h2 className="form-title">SIGN-UP</h2>
         <input
           className="input input-name"
           type="text"
           placeholder="Username"
           {...register("username")} //! same as register("username", {required: "Username is required"})
         />
-        {errors.username && <p>{errors.username.message}</p>}
+        {errors.username && <p className = "form-errors" >{errors.username.message}</p>}
         <input
           className="input input-email"
           type="email"
           placeholder="Email"
           {...register("email")}
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && <p className = "form-errors" >{errors.email.message}</p>}
         <input
           className="input input-password"
           type="password"
           placeholder="Password"
           {...register("password")}
         />
-        {errors.password && <p>{errors.password.message}</p>}
-        <button className="sbumit-btn" type="submit" disabled={isSubmitting}>
+        {errors.password && <p className = "form-errors" >{errors.password.message}</p>}
+        <button className="btn sbumit-btn" type="submit" disabled={isSubmitting}>
           Register
         </button>
       </form>
