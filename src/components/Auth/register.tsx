@@ -1,18 +1,23 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; //! neccessary for zod to work with react-hook-form
+import { useNavigate} from "react-router-dom";
+
+import { LineWave } from "react-loader-spinner";
 
 import "./register.css";
 
 const registerSchema = z.object({
-  username: z.string().min(3, "Username must be at least 3 characters long"),
-  email: z.string().email(),
+  name: z.string().min(3, "Username must be at least 3 characters long"),
+  username: z.string().email(),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
 type T_registerSchema = z.infer<typeof registerSchema>;
 
 const Register = () => {
+
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -23,18 +28,27 @@ const Register = () => {
   });
 
   const onSubmit = async (data: T_registerSchema) => {
-
-
     const response = await fetch("http://localhost:5050/api/v2/register", {
-      method : "POST",      
-      headers:{                                                             //! for the server to know what type of data is being sent
-        'content-type': 'application/json'
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
       },
-      body : JSON.stringify(data), //! data is being sent in the form of a string
+      body: JSON.stringify(data),
     });
+  
+    if (!response.ok) {
+      const errorData = await response.json(); // or response.text() if the response is not JSON
+      console.log(errorData.message);
+    }
+    else{
+      const responseData = await response.json();
+      console.log(responseData);
+      reset();
 
-    console.log(response);
-    reset();
+      navigate("/home", { state : { data : responseData}});
+    }
+  
+   
   };
 
   return (
@@ -45,26 +59,49 @@ const Register = () => {
           className="input input-name"
           type="text"
           placeholder="Username"
-          {...register("username")} //! same as register("username", {required: "Username is required"})
+          {...register("name")} //! same as register("username", {required: "Username is required"})
         />
-        {errors.username && <p className = "form-errors" >{errors.username.message}</p>}
+        {errors.name && (
+          <p className="form-errors">{errors.name.message}</p>
+        )}
         <input
           className="input input-email"
           type="email"
           placeholder="Email"
-          {...register("email")}
+          {...register("username")}
         />
-        {errors.email && <p className = "form-errors" >{errors.email.message}</p>}
+        {errors.username && <p className="form-errors">{errors.username.message}</p>}
         <input
           className="input input-password"
           type="password"
           placeholder="Password"
           {...register("password")}
         />
-        {errors.password && <p className = "form-errors" >{errors.password.message}</p>}
-       {isSubmitting ? <Loader/>  : <button className="btn sbumit-btn" type="submit" disabled={isSubmitting}>
-          Register
-        </button> }
+        {errors.password && (
+          <p className="form-errors">{errors.password.message}</p>
+        )}
+        {isSubmitting ? (
+          <LineWave
+            visible={true}
+            height="100"
+            width="100"
+            color="#4fa94d"
+            ariaLabel="line-wave-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
+          />
+        ) : (
+          <button
+            className="btn sbumit-btn"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Register
+          </button>
+        )}
       </form>
     </div>
   );
