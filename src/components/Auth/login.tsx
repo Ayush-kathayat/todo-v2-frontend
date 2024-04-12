@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; //! neccessary for zod to work with react-hook-form
 
 import "./register.css";
-
+import { LineWave } from "react-loader-spinner";
 const loginSchema = z.object({
-  email: z.string().email(),
+  username: z.string().email(),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
@@ -15,13 +15,30 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<T_loginSchema>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async (data: T_loginSchema) => {
 
-    // const response  = await fetch();
-    console.log(data);
+    const response = await fetch("http://localhost:5050/api/v2/login", {
+      method: "POST",
+      headers: {
+        "content-type" : "application/json"
+      },
+      body : JSON.stringify(data), 
+    })
+
+    if(!response.ok){
+      const errorData = await response.json();
+      console.log(errorData.message);
+    }
+    else{
+      const responseData = await response.json();
+      console.log(responseData);
+      reset();
+
+    }
   };
   return (
     <div className="form-wrapper">
@@ -34,9 +51,9 @@ const Login = () => {
           type="email"
           id="email"
           placeholder="Email"
-          {...register("email")}
+          {...register("username")}
         />
-        {errors.email && <p className = "form-errors" >{errors.email.message}</p>}
+        {errors.username && <p className = "form-errors" >{errors.username.message}</p>}
         <input
           className="input input-password"
           type="password"
@@ -45,9 +62,28 @@ const Login = () => {
           {...register("password")}
         />
         {errors.password && <p className = "form-errors" >{errors.password.message}</p>}
-        <button className= "btn login-btn" type="submit" disabled={isSubmitting}>
-          Login
-        </button>
+              {isSubmitting ? (
+          <LineWave
+            visible={true}
+            height="100"
+            width="100"
+            color="#4fa94d"
+            ariaLabel="line-wave-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            firstLineColor=""
+            middleLineColor=""
+            lastLineColor=""
+          />
+        ) : (
+          <button
+            className="btn login-btn"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Login
+          </button>
+        )}
       </form>
     </div>
   );
