@@ -1,6 +1,7 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; //! neccessary for zod to work with react-hook-form
+import { useNavigate} from "react-router-dom";
 
 import "./register.css";
 import { LineWave } from "react-loader-spinner";
@@ -12,6 +13,9 @@ const loginSchema = z.object({
 type T_loginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
+
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -22,6 +26,7 @@ const Login = () => {
   const onSubmit = async (data: T_loginSchema) => {
 
     const response = await fetch("http://localhost:5050/api/v2/login", {
+      credentials : 'include',
       method: "POST",
       headers: {
         "content-type" : "application/json"
@@ -37,6 +42,7 @@ const Login = () => {
       const responseData = await response.json();
       console.log(responseData);
       reset();
+      navigate("/home", { state : { data : responseData}});
 
     }
   };

@@ -30,6 +30,7 @@ const Register = () => {
   const onSubmit = async (data: T_registerSchema) => {
     const response = await fetch("http://localhost:5050/api/v2/register", {
       method: "POST",
+      credentials : 'include',
       headers: {
         "content-type": "application/json",
       },
@@ -42,7 +43,7 @@ const Register = () => {
     }
     else{
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
       reset();
 
       navigate("/home", { state : { data : responseData}});
