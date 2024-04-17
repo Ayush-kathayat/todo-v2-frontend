@@ -1,12 +1,18 @@
-import { useState } from "react";
+import { useContext } from "react";
 // import { CSSTransition } from "react-transition-group";
 
 import Register from "../../components/Auth/register";
 import Login from "../../components/Auth/login";
-
 import "./landing.css";
+
+
+//! importing context 
+
+import { LoginFormContext } from "../../App";
+
+
 const Landing = () => {
-  const [isLoginForm, setIsLoginForm] = useState(false);
+  const { isLoginForm, setIsLoginForm } = useContext(LoginFormContext);
 
   const handleLoginClick = () => {
     setIsLoginForm(true);
@@ -46,15 +52,16 @@ const Landing = () => {
         >
           <Register />
         </CSSTransition> */}
-        {isLoginForm ? <Login /> : <Register />}
+        {isLoginForm ? <Register /> : <Login /> }
         <div className="login-register">
           {isLoginForm ? (
             <p className="switch-form-link" onClick={handleRegisterClick}>
-              Don't have an account?
+              Already have an account?
             </p>
           ) : (
             <p className="switch-form-link" onClick={handleLoginClick}>
-              Already have an account?
+             
+              Don't have an account?
             </p>
           )}
         </div>

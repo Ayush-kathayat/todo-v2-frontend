@@ -1,4 +1,4 @@
-const Logout = async (): Promise<boolean> => {
+const logout = async (): Promise<boolean> => {
   const response = await fetch("http://localhost:5050/api/v2/logout", {
     method: "GET",
     credentials: "include",
@@ -18,4 +18,4 @@ const Logout = async (): Promise<boolean> => {
   // }
   return response.ok;
 };
-export default Logout;
+export default logout;

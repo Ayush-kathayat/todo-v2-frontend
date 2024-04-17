@@ -1,6 +1,6 @@
 //todo : make the Task type in the home component and pass it here
 
-const UpdateTask = async (taskId: string, data: Task) => {
+const updateTask = async (taskId: string, data: Task) => {
   const response = await fetch(`http://localhost:5050/api/v2/task/${taskId}`, {
     method: 'PUT',
     credentials: 'include',
@@ -14,4 +14,4 @@ const UpdateTask = async (taskId: string, data: Task) => {
 };
 
 
-export default UpdateTask;
+export default updateTask;

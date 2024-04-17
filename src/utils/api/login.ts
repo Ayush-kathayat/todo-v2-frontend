@@ -1,4 +1,4 @@
-const Login = async (data: T_loginSchema)=> {
+const login = async (data: T_loginSchema)=> {
   const response = await fetch("http://localhost:5050/api/v2/login", {
     credentials : 'include',
     method: "POST",
@@ -15,4 +15,4 @@ const Login = async (data: T_loginSchema)=> {
 
 }
 
-export default Login ;
+export default login ;

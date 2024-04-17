@@ -1,11 +1,13 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; //! neccessary for zod to work with react-hook-form
-import { useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 import { LineWave } from "react-loader-spinner";
 
 import "./register.css";
+
+import { LoginFormContext } from "../../App";
 
 const registerSchema = z.object({
   name: z.string().min(3, "Username must be at least 3 characters long"),
@@ -13,9 +15,15 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-type T_registerSchema = z.infer<typeof registerSchema>;
+export type T_registerSchema = z.infer<typeof registerSchema>;
+
+//! api below
+
+import { register as registerAPI } from "..//..//utils/api/api.ts";  //! there was a naming conflict
 
 const Register = () => {
+
+  const { setIsLoginForm } = useContext(LoginFormContext);
 
   const navigate = useNavigate();
   const {
@@ -27,26 +35,18 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = () => {
-
-
-    //! call the register api in here pass the data as an argument 
-
-    //! then perform what you need to do basically if you want the user to be redirected to the home page after registration you can do that here
-
-    // if (!response.ok) {
-    //   const errorData = await response.json(); // or response.text() if the response is not JSON
-    //   console.log(errorData.message);
-    // }
-    // else{
-    //   const responseData = await response.json();
-    //   // console.log(responseData);
-    //   reset();
-
-    //   navigate("/home", { state : { data : responseData}});
-    // }
+  const onSubmit = async (data: T_registerSchema) => {
+    // console.log(data);
+    const success = await registerAPI(data);
   
-   
+    if (!success) {
+      console.log("SOME ERROR OCCURED WHILE REGISTERING ");
+    } else {
+      reset();
+      //! change the login state first do you understand consume the context 
+      setIsLoginForm(false);
+      navigate("/");
+    }
   };
 
   return (
@@ -59,16 +59,16 @@ const Register = () => {
           placeholder="Username"
           {...register("name")} //! same as register("username", {required: "Username is required"})
         />
-        {errors.name && (
-          <p className="form-errors">{errors.name.message}</p>
-        )}
+        {errors.name && <p className="form-errors">{errors.name.message}</p>}
         <input
           className="input input-email"
           type="email"
           placeholder="Email"
           {...register("username")}
         />
-        {errors.username && <p className="form-errors">{errors.username.message}</p>}
+        {errors.username && (
+          <p className="form-errors">{errors.username.message}</p>
+        )}
         <input
           className="input input-password"
           type="password"
