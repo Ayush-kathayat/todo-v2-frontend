@@ -1,0 +1,32 @@
+const createTask = async () => {
+  const response = await fetch("http://localhost:5050/api/v2/task", {
+    method: "POST",
+    credentials: "include", // include credentials (cookies)
+    headers: {
+      "content-type": "application/json",
+    },
+
+    //!: todo : don't hardcode the body  this function should able to take the body as an argument
+
+    //! i hope you know what you need to do first make a datatype of this data below in the home  and then pass it here just 
+
+    //? just like the register and lgogin 
+    
+    body: JSON.stringify({
+      taskTitle: "watch a sex movie",
+      description: "Godzilla X Kong : The New Empire Strikes Back",
+      completed: false,
+    }),
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.log(errorData.message);
+  } else {
+    const responseData = await response.json();
+    console.log(responseData);
+  }
+};
+
+
+export default createTask;

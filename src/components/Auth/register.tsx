@@ -27,27 +27,24 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: T_registerSchema) => {
-    const response = await fetch("http://localhost:5050/api/v2/register", {
-      method: "POST",
-      credentials : 'include',
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-  
-    if (!response.ok) {
-      const errorData = await response.json(); // or response.text() if the response is not JSON
-      console.log(errorData.message);
-    }
-    else{
-      const responseData = await response.json();
-      // console.log(responseData);
-      reset();
+  const onSubmit = () => {
 
-      navigate("/home", { state : { data : responseData}});
-    }
+
+    //! call the register api in here pass the data as an argument 
+
+    //! then perform what you need to do basically if you want the user to be redirected to the home page after registration you can do that here
+
+    // if (!response.ok) {
+    //   const errorData = await response.json(); // or response.text() if the response is not JSON
+    //   console.log(errorData.message);
+    // }
+    // else{
+    //   const responseData = await response.json();
+    //   // console.log(responseData);
+    //   reset();
+
+    //   navigate("/home", { state : { data : responseData}});
+    // }
   
    
   };
