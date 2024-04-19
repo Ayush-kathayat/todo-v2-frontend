@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect} from "react";
 import "./nav.css";
 import { LoginFormContext } from "../../App";
 import seperateName from "../../utils/seperateName";
