@@ -1,18 +1,26 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"; //! neccessary for zod to work with react-hook-form
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 import "./register.css";
+
+import { LoginFormContext } from "../../App";
+import seperateName from "../../utils/seperateName.ts";
+
 import { LineWave } from "react-loader-spinner";
 const loginSchema = z.object({
   username: z.string().email(),
   password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-type T_loginSchema = z.infer<typeof loginSchema>;
+export type T_loginSchema = z.infer<typeof loginSchema>;
+
+import { login as loginAPI } from "..//..//utils/api/api.ts"; //! there was a naming conflict
 
 const Login = () => {
+  const { setAvatar } = useContext(LoginFormContext);
 
   const navigate = useNavigate();
 
@@ -24,26 +32,27 @@ const Login = () => {
   } = useForm<T_loginSchema>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async (data: T_loginSchema) => {
+    const response = await loginAPI(data);
 
-    const response = await fetch("http://localhost:5050/api/v2/login", {
-      credentials : 'include',
-      method: "POST",
-      headers: {
-        "content-type" : "application/json"
-      },
-      body : JSON.stringify(data), 
-    })
-
-    if(!response.ok){
+    if (!response.ok) {
       const errorData = await response.json();
       console.log(errorData.message);
-    }
-    else{
+    } else {
       const responseData = await response.json();
-      console.log(responseData);
-      reset();
-      navigate("/home", { state : { data : responseData}});
+      console.log(responseData.name);
 
+      const nameParts = seperateName(responseData.name);
+      if (nameParts) {
+        const { first, last } = nameParts; //? now i have the first and the last name now i will hit a the api with both the name
+        console.log(first, last);
+        const avatarResponse = await fetch(
+          `https://ui-avatars.com/api/?name=${first}+${last}&background=random&rounded=true&size=50&bold=true&color=fff`
+        );
+        const avatarUrl = avatarResponse.url; // Extract the URL from the Response object
+        setAvatar(avatarUrl); // Pass the URL string to setAvatar
+      }
+      reset();
+      navigate("/home", { state: { data: responseData } });
     }
   };
   return (
@@ -59,7 +68,9 @@ const Login = () => {
           placeholder="Email"
           {...register("username")}
         />
-        {errors.username && <p className = "form-errors" >{errors.username.message}</p>}
+        {errors.username && (
+          <p className="form-errors">{errors.username.message}</p>
+        )}
         <input
           className="input input-password"
           type="password"
@@ -67,8 +78,10 @@ const Login = () => {
           placeholder="Password"
           {...register("password")}
         />
-        {errors.password && <p className = "form-errors" >{errors.password.message}</p>}
-              {isSubmitting ? (
+        {errors.password && (
+          <p className="form-errors">{errors.password.message}</p>
+        )}
+        {isSubmitting ? (
           <LineWave
             visible={true}
             height="100"

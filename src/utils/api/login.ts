@@ -1,3 +1,5 @@
+import { T_loginSchema } from "../../components/Auth/login.tsx";  //! just a type    
+
 const login = async (data: T_loginSchema)=> {
   const response = await fetch("http://localhost:5050/api/v2/login", {
     credentials : 'include',
