@@ -1,10 +1,18 @@
 import "./inputTask.css";
-const TaskInput = () => {
+const TaskInput = ({newTaskClicked}) => {
   return (
-    <form action="">
-      <input type="text" placeholder="Add a task" />
-      <button type="submit">Add</button>
-    </form>
+    <div className="input-task-container">
+      <form className="task-input-wrapper">
+        <input className="task-input" type="text" placeholder="Add a task" />
+        <button className="task-add-btn"type="submit">
+          <img src="plus.svg" alt="plus-icon" />
+        </button>
+      </form>
+
+      <button className="search-button" onClick={() => newTaskClicked(false)}>
+        SEARCH
+      </button>
+    </div>
   );
 };
 
