@@ -5,6 +5,10 @@ import { useNavigate} from "react-router-dom";
 
 import "./home.css";
 
+
+import TaskWrapper from "../../components/TaskWrapper/task-wrapper";
+
+
 type Task = {
   _id: string;
   taskTitle: string;
@@ -25,10 +29,11 @@ const Home = () => {
 
 
   return (
-    <>
+    <div className="home-wrapper">
+
       <Nav username={user.name} />
-      
-    </>
+      <TaskWrapper />
+    </div>
   );
 };
 
