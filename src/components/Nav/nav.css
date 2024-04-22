@@ -28,18 +28,18 @@ nav{
     font-weight: var(--font-weight-bold);
     font-family: var(--secondary-font);
     text-transform: capitalize;
-    background-color: var(--accent);
+    background-color: var(--background);
     padding: 0.2rem 0.7rem;
     border : 2px solid var(--accent);
     border-radius: 5px;
-    color : var(--primary);
+    color : var(--accent);
     transition: all 0.3s;
     cursor: pointer;
 }
 
 .user p:hover{
-    background-color: var(--primary);
-    color: var(--accent);
+    background-color: var(--accent);
+    color: var(--primary);
 }
 
 .logout-icon{
@@ -47,4 +47,22 @@ nav{
     color: var(--accent);
     cursor: pointer;
     transition: all 0.3s;
+}
+
+.logout-wrapper{
+    background-color: var(--background);
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--background);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.logout-wrapper:hover{
+    border: 2px solid var(--accent);
+    background-color: var(--primary);
 }

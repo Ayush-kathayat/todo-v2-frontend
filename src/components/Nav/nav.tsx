@@ -56,12 +56,14 @@ const Nav: React.FC<NavProps> = ({ username }) => {
       <div className="user">
         <p>{username}</p>
         {/* <img src={avatar} alt="user" /> */}
-        <img
-          className="logout-icon"
-          onClick={handleLogout}
-          src="log-out.svg"
-          alt="LOGOUT"
-        />
+        <div className="logout-wrapper">
+          <img
+            className="logout-icon"
+            onClick={handleLogout}
+            src="log-out.svg"
+            alt="LOGOUT"
+          />
+        </div>
       </div>
     </nav>
   );
