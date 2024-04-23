@@ -6,7 +6,7 @@ import TaskSearch from "../TaskSearch/taskSearch";
 
 import Task from "../Task/task";
 
-import {createTask, showTask} from "../../utils/api/api";
+import { showTask } from "../../utils/api/api";
 
 export type T_Task = {
   _id: string;
@@ -34,19 +34,22 @@ const TaskWrapper = () => {
   const deleteTask = async (taskId: string) => {
     // Optimistically update the tasks state
     const originalTasks = tasks;
-    setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
-  
+    setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+
     try {
-      const response = await fetch(`http://localhost:5050/api/v2/task/${taskId}`, {
-        method: "DELETE",
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
-  
+      const response = await fetch(
+        `http://localhost:5050/api/v2/task/${taskId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "content-type": "application/json",
+          },
+        }
+      );
+
       if (!response.ok) {
-        throw new Error('Error deleting task');
+        throw new Error("Error deleting task");
       }
     } catch (error) {
       // If the delete operation fails, revert the tasks state back to its original form
@@ -55,11 +58,42 @@ const TaskWrapper = () => {
     }
   };
 
+  const createTask = async (task: string) => {
+    const response = await fetch("http://localhost:5050/api/v2/task", {
+      method: "POST",
+      credentials: "include", // include credentials (cookies)
+      headers: {
+        "content-type": "application/json",
+      },
+
+      //!: todo : don't hardcode the body  this function should able to take the body as an argument
+
+      //! i hope you know what you need to do first make a datatype of this data below in the home  and then pass it here just
+
+      //? just like the register and lgogin
+
+      body: JSON.stringify({
+        taskTitle: task,
+        description: "land mera, dikha hi nahi raha hu main ise ",
+        completed: false,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.log(errorData.message);
+    } else {
+      const responseData = await response.json();
+      console.log(responseData);
+      // Update tasks state with the new task
+      setTasks((prevTasks) => [...prevTasks, responseData]);
+    }
+  };
+
   return (
     <div className="task-wrapper">
       {newTaskClicked ? (
-        
-        <TaskInput newTaskClicked={setNewTaskClicked} setTasks={setTasks} createTask={createTask} />
+        <TaskInput newTaskClicked={setNewTaskClicked} createTask={createTask} />
       ) : (
         <TaskSearch newTaskClicked={setNewTaskClicked} />
       )}
@@ -68,7 +102,7 @@ const TaskWrapper = () => {
 
       {/* {tasks.map((task) => <Task key={task} task={task} />)} Use map to render a Task component for each task */}
 
-      {tasks.map((task) => (
+      {[...tasks].reverse().map((task) => (
         <Task
           key={task._id}
           id={task._id}
