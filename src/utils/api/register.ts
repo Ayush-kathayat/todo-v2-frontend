@@ -12,7 +12,7 @@ const register = async (data: T_registerSchema): Promise<boolean> => {
     body: JSON.stringify(data),
   });
 
-  console.log(response);
+  // console.log(response);
   return response.ok;
 };
 

@@ -4,6 +4,10 @@
   align-items: center;
   justify-content: space-between; /* Add this line */
   width: 100%;
+  margin-bottom : 4rem;
+  overflow: hidden;
+  position: sticky;
+  
 }
 
 .task-input-wrapper {

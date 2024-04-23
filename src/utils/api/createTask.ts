@@ -1,4 +1,4 @@
-const createTask = async () => {
+const createTask = async (task: string) => {
   const response = await fetch("http://localhost:5050/api/v2/task", {
     method: "POST",
     credentials: "include", // include credentials (cookies)
@@ -13,8 +13,8 @@ const createTask = async () => {
     //? just like the register and lgogin 
     
     body: JSON.stringify({
-      taskTitle: "watch a sex movie",
-      description: "Godzilla X Kong : The New Empire Strikes Back",
+      taskTitle: task,
+      description: "land mera, dikha hi nahi raha hu main ise ",
       completed: false,
     }),
   });

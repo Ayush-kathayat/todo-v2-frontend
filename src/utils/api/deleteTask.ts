@@ -1,21 +1,19 @@
-const deleteTask = async (taskId: string): Promise<boolean> => {
+const deleteTask = async (taskId: string) => {
   const response = await fetch(`http://localhost:5050/api/v2/task/${taskId}`, {
-    method: 'DELETE',
-    credentials: 'include',
+    method: "DELETE",
+    credentials: "include",
     headers: {
-      'Content-Type': 'application/json',
+      "content-type": "application/json",
     },
   });
 
-  // if (!response.ok) {
-  //   const errorData = await response.json();
-  //   console.error('Error:', errorData.message);
-  // } else {
-  //   const responseData = await response.json();
-  //   console.log('Success:', responseData.message);
-  // }
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(`Error deleting task: ${errorData.message}`);
+  }
 
-  return response.ok;
-}
+  // If the task was deleted successfully, return the response
+  return response;
+};
 
 export default deleteTask;
