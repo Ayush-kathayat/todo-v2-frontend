@@ -90,6 +90,45 @@ const TaskWrapper = () => {
     }
   };
 
+  const updateTask = async (taskId: string, Task: T_Task): Promise<T_Task> => {
+    const response = await fetch(
+      `http://localhost:5050/api/v2/task/${taskId}`,
+      {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          taskTitle: Task.taskTitle,
+          description: "land mera, dikha hi nahi raha hu main ise ",
+          completed: Task.completed,
+        }),
+      }
+    );
+
+    // if (!response.ok) {
+    //   throw new Error("Failed to update task");
+    // }
+
+    const updatedTask = await response.json();
+
+    console.log(updatedTask);
+
+    return updatedTask;
+  };
+
+  // const handleUpdateTask = async (taskId: string, updatedTaskData: T_Task) => {
+  //   try {
+  //     const updatedTask = await updateTask(taskId, updatedTaskData);
+  //     setTasks((prevTasks) =>
+  //       prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
+  //     );
+  //   } catch (error) {
+  //     console.error("Failed to update task", error);
+  //   }
+  // };
+
   return (
     <div className="task-wrapper">
       {newTaskClicked ? (
@@ -108,8 +147,11 @@ const TaskWrapper = () => {
           id={task._id}
           title={task.taskTitle}
           description={task.description}
+          status={task.completed}
+          tasks={tasks}
           setTasks={setTasks}
           deleteTask={deleteTask}
+          updateTask={updateTask}
         />
       ))}
     </div>

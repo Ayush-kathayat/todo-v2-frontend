@@ -79,3 +79,9 @@
   background-color: var(--primary);
   border: 2px solid var(--accent);
 }
+
+.completed > .task {
+  opacity: 0.25; /* Makes the task semi-transparent */
+  text-decoration: line-through; /* Adds a strikethrough */
+  color: #888; /* Changes the text color to a light gray */
+}
