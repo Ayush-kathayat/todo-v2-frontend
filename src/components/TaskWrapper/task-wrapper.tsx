@@ -141,19 +141,26 @@ const TaskWrapper = () => {
 
       {/* {tasks.map((task) => <Task key={task} task={task} />)} Use map to render a Task component for each task */}
 
-      {[...tasks].reverse().map((task) => (
-        <Task
-          key={task._id}
-          id={task._id}
-          title={task.taskTitle}
-          description={task.description}
-          status={task.completed}
-          tasks={tasks}
-          setTasks={setTasks}
-          deleteTask={deleteTask}
-          updateTask={updateTask}
-        />
-      ))}
+
+
+      {/* Below here i am using a sort function to sort the tasks based on the completed status of the task with the help of the sort function and ternary operator */}
+      {[...tasks]
+        .sort((a, b) =>
+          a.completed === b.completed ? 0 : a.completed ? 1 : -1
+        )
+        .map((task) => (
+          <Task
+            key={task._id}
+            id={task._id}
+            title={task.taskTitle}
+            description={task.description}
+            status={task.completed}
+            tasks={tasks}
+            setTasks={setTasks}
+            deleteTask={deleteTask}
+            updateTask={updateTask}
+          />
+        ))}
     </div>
   );
 };
