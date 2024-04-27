@@ -19,6 +19,7 @@ export type T_Task = {
 const TaskWrapper = () => {
   const [newTaskClicked, setNewTaskClicked] = useState(false); //! based on this i will switch between the create a new task and the search bar for the tasks
   const [tasks, setTasks] = useState<T_Task[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // TODO :  hit a get request to get all the tasks and pass them to the task component
 
@@ -111,12 +112,22 @@ const TaskWrapper = () => {
     //   throw new Error("Failed to update task");
     // }
 
+
     const updatedTask = await response.json();
 
     console.log(updatedTask);
 
     return updatedTask;
   };
+
+  const handleSearchTermChange = (newSearchTerm: string) => {
+    setSearchTerm(newSearchTerm);
+  };
+
+  // Filter tasks based on the search term before rendering them
+  const filteredTasks = tasks.filter((task) =>
+    task.taskTitle.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   // const handleUpdateTask = async (taskId: string, updatedTaskData: T_Task) => {
   //   try {
@@ -134,17 +145,25 @@ const TaskWrapper = () => {
       {newTaskClicked ? (
         <TaskInput newTaskClicked={setNewTaskClicked} createTask={createTask} />
       ) : (
-        <TaskSearch newTaskClicked={setNewTaskClicked} />
+        <TaskSearch
+          newTaskClicked={setNewTaskClicked}
+          onSearchTermChange={handleSearchTermChange}
+        />
       )}
 
       {/* todo : use map to render all the tasks */}
 
-      {/* {tasks.map((task) => <Task key={task} task={task} />)} Use map to render a Task component for each task */}
+      {/* {tasks.map((task) => <Task key={task} task={task} /    const handleSearchTermChange = (newSearchTerm: string) => {
+      setSearchTerm(newSearchTerm);
+    };
 
-
+    // Filter tasks based on the search term before rendering them
+    const filteredTasks = tasks.filter((task) =>
+      task.taskTitle.toLowerCase().includes(searchTerm.toLowerCase())
+    );>)} Use map to render a Task component for each task */}
 
       {/* Below here i am using a sort function to sort the tasks based on the completed status of the task with the help of the sort function and ternary operator */}
-      {[...tasks]
+      {[...filteredTasks]
         .sort((a, b) =>
           a.completed === b.completed ? 0 : a.completed ? 1 : -1
         )

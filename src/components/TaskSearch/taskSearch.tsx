@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import "./taskSearch.css";
-const TaskSearch = ({newTaskClicked}) => {
-  const [searchTerm, setSearchTerm] = useState("");
 
+
+const TaskSearch = ({newTaskClicked, onSearchTermChange}) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+    onSearchTermChange(newSearchTerm);
   };
 
   return (
     <div className="search-header">
-
       <div className="search-container">
         <input
           className="search-bar"
@@ -24,8 +26,9 @@ const TaskSearch = ({newTaskClicked}) => {
         </div>
       </div>
 
-     
-      <button className="new-task-button" onClick={() => newTaskClicked(true)}>New Task</button>   
+      <button className="new-task-button" onClick={() => newTaskClicked(true)}>
+        New Task
+      </button>
     </div>
   );
 };
