@@ -17,17 +17,26 @@
   height: 2.5rem;
   border-radius: 50px;
   overflow: hidden;
+  /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); */
+  border: 2px solid var(--background);
+  transition: all 0.3s ease-in-out;
 }
 
+.task:hover {
+  background-color: var(--primary);
+  /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); */
+  border: 2px solid var(--accent);
+  scale: 1.01;
+  transition: all 0.3s ease-in-out;
+}
 
-.task-title{
+.task-title {
   font-size: var(--font-size-large);
   font-family: var(--cta-font);
   color: var(--text);
   width: 80%;
   text-align: left;
   margin-left: 10px;
-
 }
 
 .task-buttons {
@@ -38,14 +47,14 @@
   height: auto;
 }
 
-.task-btn{
+.task-btn {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: var(--primary);
   color: var(--text);
   border: none;
-  padding: 5px;
+  padding: 10px;
   border-radius: 50%;
   height: 2.8rem;
   width: 2.8rem;
@@ -58,7 +67,7 @@
   background-color: var(--background);
   border: 2px solid var(--accent);
 }
-.delete-btn{
+.delete-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,14 +83,31 @@
   border: 2px solid var(--background);
 }
 
-
 .delete-btn:hover {
   background-color: var(--primary);
   border: 2px solid var(--accent);
 }
 
 .completed > .task {
-  opacity: 0.25; /* Makes the task semi-transparent */
+  opacity: 0.35; /* Makes the task semi-transparent */
   text-decoration: line-through; /* Adds a strikethrough */
   color: #888; /* Changes the text color to a light gray */
+}
+
+.edit-task-title-input {
+  color: var(--text);
+  outline: none;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--text);
+  margin-left: 10px;
+  font-size: var(--font-size-large);
+  font-family: var(--cta-font);
+}
+.hide {
+  visibility: hidden;
+}
+
+.rect {
+  border-radius: 5px;
 }

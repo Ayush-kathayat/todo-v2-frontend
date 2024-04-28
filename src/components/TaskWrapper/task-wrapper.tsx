@@ -129,17 +129,6 @@ const TaskWrapper = () => {
     task.taskTitle.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // const handleUpdateTask = async (taskId: string, updatedTaskData: T_Task) => {
-  //   try {
-  //     const updatedTask = await updateTask(taskId, updatedTaskData);
-  //     setTasks((prevTasks) =>
-  //       prevTasks.map((task) => (task._id === taskId ? updatedTask : task))
-  //     );
-  //   } catch (error) {
-  //     console.error("Failed to update task", error);
-  //   }
-  // };
-
   return (
     <div className="task-wrapper">
       {newTaskClicked ? (
@@ -151,17 +140,7 @@ const TaskWrapper = () => {
         />
       )}
 
-      {/* todo : use map to render all the tasks */}
-
-      {/* {tasks.map((task) => <Task key={task} task={task} /    const handleSearchTermChange = (newSearchTerm: string) => {
-      setSearchTerm(newSearchTerm);
-    };
-
-    // Filter tasks based on the search term before rendering them
-    const filteredTasks = tasks.filter((task) =>
-      task.taskTitle.toLowerCase().includes(searchTerm.toLowerCase())
-    );>)} Use map to render a Task component for each task */}
-
+     
       {/* Below here i am using a sort function to sort the tasks based on the completed status of the task with the help of the sort function and ternary operator */}
       {[...filteredTasks]
         .sort((a, b) =>
