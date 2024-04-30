@@ -10,6 +10,17 @@ const TaskSearch = ({newTaskClicked, onSearchTermChange}) => {
     onSearchTermChange(newSearchTerm);
   };
 
+  const handleCleanup = () => {
+    setSearchTerm("");
+    onSearchTermChange("");
+  }
+
+  const handleSwitch = () => {
+    handleCleanup();
+    newTaskClicked(true);
+  }
+
+
   return (
     <div className="search-header">
       <div className="search-container">
@@ -21,12 +32,12 @@ const TaskSearch = ({newTaskClicked, onSearchTermChange}) => {
           placeholder="Search for tasks..."
         />
 
-        <div className="search-icon-wrapper">
-          <img src="search.svg" alt="search-icon" />
+        <div className="search-icon-wrapper" onClick={handleCleanup}>
+          <img src="x.svg" alt="search-icon" />
         </div>
       </div>
 
-      <button className="new-task-button" onClick={() => newTaskClicked(true)}>
+      <button className="new-task-button" onClick={handleSwitch}>
         New Task
       </button>
     </div>
