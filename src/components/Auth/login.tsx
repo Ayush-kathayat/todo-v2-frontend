@@ -9,6 +9,10 @@ import "./register.css";
 import { LoginFormContext } from "../../App";
 import seperateName from "../../utils/seperateName.ts";
 
+import { toast } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { LineWave } from "react-loader-spinner";
 const loginSchema = z.object({
   username: z.string().email(),
@@ -21,6 +25,32 @@ import { login as loginAPI } from "..//..//utils/api/api.ts"; //! there was a na
 
 const Login = () => {
   const { setAvatar } = useContext(LoginFormContext);
+
+  const notifySuccess = (message: string) =>
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+
+  const notifyError = (message: string) =>
+    toast.error(message, {
+      position: "top-right",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
 
   const navigate = useNavigate();
 
@@ -35,8 +65,8 @@ const Login = () => {
     const response = await loginAPI(data);
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.log(errorData.message);
+      console.log(response.statusText); // Log the status text instead of trying to parse the response as JSON
+      notifyError("Not Authorized");
     } else {
       const responseData = await response.json();
       console.log(responseData.name);
@@ -52,7 +82,13 @@ const Login = () => {
         setAvatar(avatarUrl); // Pass the URL string to setAvatar
       }
       reset();
-      navigate("/home", { state: { data: responseData } });
+      notifySuccess("Login Successful");
+
+      // Delay the navigation by 2.5 seconds to allow the toast to be displayed
+      setTimeout(() => {
+        navigate("/home", { state: { data: responseData } });
+      }, 1500);
+
     }
   };
   return (

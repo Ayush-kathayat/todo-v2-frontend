@@ -5,11 +5,13 @@ import Register from "../../components/Auth/register";
 import Login from "../../components/Auth/login";
 import "./landing.css";
 
+import { ToastContainer } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-//! importing context 
+//! importing context
 
 import { LoginFormContext } from "../../App";
-
 
 const Landing = () => {
   const { isLoginForm, setIsLoginForm } = useContext(LoginFormContext);
@@ -52,7 +54,7 @@ const Landing = () => {
         >
           <Register />
         </CSSTransition> */}
-        {isLoginForm ? <Register /> : <Login /> }
+        {isLoginForm ? <Register /> : <Login />}
         <div className="login-register">
           {isLoginForm ? (
             <p className="switch-form-link" onClick={handleRegisterClick}>
@@ -60,12 +62,24 @@ const Landing = () => {
             </p>
           ) : (
             <p className="switch-form-link" onClick={handleLoginClick}>
-             
               Don't have an account?
             </p>
           )}
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </div>
   );
 };

@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { LineWave } from "react-loader-spinner";
 
+import { toast } from "react-toastify";
+import { Bounce } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 import "./register.css";
 
 import { LoginFormContext } from "../../App";
@@ -19,11 +23,35 @@ export type T_registerSchema = z.infer<typeof registerSchema>;
 
 //! api below
 
-import { register as registerAPI } from "..//..//utils/api/api.ts";  //! there was a naming conflict
+import { register as registerAPI } from "..//..//utils/api/api.ts"; //! there was a naming conflict
 
 const Register = () => {
-
   const { setIsLoginForm } = useContext(LoginFormContext);
+
+  const notifySuccess = (message: string) => toast.success(message, {
+    position: "top-right",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+
+  const notifyError = (message: string) => toast.error(message, {
+    position: "top-right",
+    autoClose: 2500,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "dark",
+    transition: Bounce,
+  });
+  
 
   const navigate = useNavigate();
   const {
@@ -38,12 +66,14 @@ const Register = () => {
   const onSubmit = async (data: T_registerSchema) => {
     // console.log(data);
     const success = await registerAPI(data);
-  
+
     if (!success) {
+      notifyError("Registration Failed");
       console.log("SOME ERROR OCCURED WHILE REGISTERING ");
     } else {
       reset();
-      //! change the login state first do you understand consume the context 
+      //! change the login state first do you understand consume the context
+      notifySuccess("Registration Successfull");
       setIsLoginForm(false);
       navigate("/");
     }

@@ -1,24 +1,15 @@
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
 import Nav from "../../components/Nav/nav";
-import { useNavigate} from "react-router-dom";
 
 import "./home.css";
 
-
 import TaskWrapper from "../../components/TaskWrapper/task-wrapper";
 
-
-type Task = {
-  _id: string;
-  taskTitle: string;
-  description: string;
-  completed: boolean;
-  __v: number;
-};
+import { ToastContainer } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
-
   // const navigate = useNavigate();
 
   // const [task, setTask] = useState<Task[]>([]);
@@ -26,13 +17,23 @@ const Home = () => {
   const user = location.state.data;
   console.log(user);
 
-
-
   return (
     <div className="home-wrapper">
-
       <Nav username={user.name} />
       <TaskWrapper />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={false}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Bounce}
+      />
     </div>
   );
 };
