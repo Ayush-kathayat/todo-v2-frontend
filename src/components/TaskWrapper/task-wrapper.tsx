@@ -8,6 +8,10 @@ import Task from "../Task/task";
 
 import { showTask } from "../../utils/api/api";
 
+import { toast } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export type T_Task = {
   _id: string;
   taskTitle: string;
@@ -20,6 +24,7 @@ const TaskWrapper = () => {
   const [newTaskClicked, setNewTaskClicked] = useState(false); //! based on this i will switch between the create a new task and the search bar for the tasks
   const [tasks, setTasks] = useState<T_Task[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
 
   // TODO :  hit a get request to get all the tasks and pass them to the task component
 
@@ -108,11 +113,6 @@ const TaskWrapper = () => {
       }
     );
 
-    // if (!response.ok) {
-    //   throw new Error("Failed to update task");
-    // }
-
-
     const updatedTask = await response.json();
 
     console.log(updatedTask);
@@ -140,31 +140,30 @@ const TaskWrapper = () => {
         />
       )}
 
-     
       {/* Below here i am using a sort function to sort the tasks based on the completed status of the task with the help of the sort function and ternary operator */}
       {[...filteredTasks]
-    .sort((a, b) => {
-      if (a.completed === b.completed) {
-        // If both tasks have the same completion status, sort by index in reverse order
-        return tasks.indexOf(b) - tasks.indexOf(a);
-      } else {
-        // If tasks have different completion status, completed tasks should go to the end
-        return a.completed ? 1 : -1;
-      }
-    })
-    .map((task) => (
-      <Task
-        key={task._id}
-        id={task._id}
-        title={task.taskTitle}
-        description={task.description}
-        status={task.completed}
-        tasks={tasks}
-        setTasks={setTasks}
-        deleteTask={deleteTask}
-        updateTask={updateTask}
-      />
-    ))}
+        .sort((a, b) => {
+          if (a.completed === b.completed) {
+            // If both tasks have the same completion status, sort by index in reverse order
+            return tasks.indexOf(b) - tasks.indexOf(a);
+          } else {
+            // If tasks have different completion status, completed tasks should go to the end
+            return a.completed ? 1 : -1;
+          }
+        })
+        .map((task) => (
+          <Task
+            key={task._id}
+            id={task._id}
+            title={task.taskTitle}
+            description={task.description}
+            status={task.completed}
+            tasks={tasks}
+            setTasks={setTasks}
+            deleteTask={deleteTask}
+            updateTask={updateTask}
+          />
+        ))}
     </div>
   );
 };

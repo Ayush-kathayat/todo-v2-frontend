@@ -8,6 +8,10 @@ import seperateName from "../../utils/seperateName";
 
 import { logout } from "../../utils/api/api";
 
+import { toast } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 type NavProps = {
   username: string;
 };
@@ -16,6 +20,19 @@ const Nav: React.FC<NavProps> = ({ username }) => {
   const navigate = useNavigate();
 
   const { setAvatar } = useContext(LoginFormContext);
+
+  const notifyLogout = (message: string) =>
+    toast.info(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
 
   useEffect(() => {
     const fetchAvatar = async () => {
@@ -41,7 +58,12 @@ const Nav: React.FC<NavProps> = ({ username }) => {
       alert("error logging out");
     } else {
       console.log("logged out");
-      navigate("/");
+      notifyLogout("LOGGED OUT");
+
+      // Delay the navigation by 2.5 seconds to allow the toast to be displayed
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     }
 
     // // Implement logout logic here

@@ -4,6 +4,10 @@ import "./task.css";
 import { T_Task } from "../TaskWrapper/task-wrapper";
 import updateTask from "../../utils/api/updateTask";
 
+import { toast } from "react-toastify";
+import { Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 type TaskProps = {
   id: string;
   title: string;
@@ -27,7 +31,61 @@ const Task: React.FC<TaskProps> = ({
   const [currentTitle, setCurrentTitle] = useState(title);
   const handleTaskDelete = async () => {
     deleteTask(id);
+    notifySuccessDelete("TASK DELETED");
   };
+
+  const notifySuccessDelete = (message: string) =>
+    toast.error(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+      icon: () => <img src="./trash-2.svg" />,
+    });
+
+  const notifyTaskDone = (message: string) =>
+    toast.info(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+
+  const notifyTaskNotDone = (message: string) =>
+    toast.warn(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
+
+  const notifyEditTaskDone = (message: string) =>
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
 
   const handleTaskDone = async () => {
     if (isEditing) {
@@ -46,6 +104,7 @@ const Task: React.FC<TaskProps> = ({
         });
 
         setIsEditing(false);
+        notifyEditTaskDone("TASK UPDATED");
       } catch (error) {
         // If the update operation fails, revert the tasks state back to its original form
         setTasks(originalTasks);
@@ -65,6 +124,12 @@ const Task: React.FC<TaskProps> = ({
           taskTitle: title,
           completed: !status,
         });
+        if (status === !true) {
+          notifyTaskDone("TASK COMPLETED");
+        } else {
+          notifyTaskNotDone("TASK UNDONE");
+        }
+        // notifyTaskDone(`TASK STATUS : ${status ? "NOT DONE" : "COMPLETED"}`)
       } catch (error) {
         // If the update operation fails, revert the tasks state back to its original form
         setTasks(originalTasks);
@@ -95,7 +160,10 @@ const Task: React.FC<TaskProps> = ({
           <div className="task-title">{title}</div>
         )}
         <div className="task-buttons">
-          <button className={`task-btn ${isEditing ? "hide" : ""}`} onClick={handleEdit}>
+          <button
+            className={`task-btn ${isEditing ? "hide" : ""}`}
+            onClick={handleEdit}
+          >
             <img src="edit.svg" alt="edit-icon" />
           </button>
           <button onClick={handleTaskDone} className="task-btn">

@@ -19,7 +19,7 @@ const TaskInput: React.FC<TaskInputProps> = ({
 
 
   const notifySuccess = (message: string) => toast.success(message, {
-    position: "top-right",
+    position: "bottom-right",
     autoClose: 2500, // use a number here
     hideProgressBar: false,
     closeOnClick: true,
