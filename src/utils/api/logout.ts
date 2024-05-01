@@ -1,5 +1,5 @@
 const logout = async (): Promise<boolean> => {
-  const response = await fetch("http://localhost:5050/api/v2/logout", {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/logout`, {
     method: "GET",
     credentials: "include",
     headers: {

@@ -16,7 +16,6 @@ type TaskProps = {
   setTasks: React.Dispatch<React.SetStateAction<T_Task[]>>;
   tasks: T_Task[];
   deleteTask: (taskId: string) => Promise<void>;
-  updateTask: (taskId: string, Task: T_Task) => Promise<T_Task>;
 };
 
 const Task: React.FC<TaskProps> = ({
@@ -98,7 +97,7 @@ const Task: React.FC<TaskProps> = ({
       );
 
       try {
-        const updatedTask = await updateTask(id, {
+        await updateTask(id, {
           taskTitle: currentTitle,
           completed: status,
         });
@@ -120,7 +119,7 @@ const Task: React.FC<TaskProps> = ({
       );
 
       try {
-        const updatedTask = await updateTask(id, {
+        await updateTask(id, {
           taskTitle: title,
           completed: !status,
         });

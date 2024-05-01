@@ -3,7 +3,7 @@
 import { T_registerSchema } from "../../components/Auth/register";  //! just a type    
 
 const register = async (data: T_registerSchema): Promise<boolean> => {
-  const response = await fetch("http://localhost:5050/api/v2/register", {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/register`, {
     method: "POST",
     credentials: "include",
     headers: {

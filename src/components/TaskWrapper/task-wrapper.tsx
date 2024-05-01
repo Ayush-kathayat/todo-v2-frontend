@@ -8,9 +8,6 @@ import Task from "../Task/task";
 
 import { showTask } from "../../utils/api/api";
 
-import { toast } from "react-toastify";
-import { Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export type T_Task = {
   _id: string;
@@ -96,29 +93,6 @@ const TaskWrapper = () => {
     }
   };
 
-  const updateTask = async (taskId: string, Task: T_Task): Promise<T_Task> => {
-    const response = await fetch(
-      `http://localhost:5050/api/v2/task/${taskId}`,
-      {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          taskTitle: Task.taskTitle,
-          description: "land mera, dikha hi nahi raha hu main ise ",
-          completed: Task.completed,
-        }),
-      }
-    );
-
-    const updatedTask = await response.json();
-
-    console.log(updatedTask);
-
-    return updatedTask;
-  };
 
   const handleSearchTermChange = (newSearchTerm: string) => {
     setSearchTerm(newSearchTerm);
@@ -161,7 +135,6 @@ const TaskWrapper = () => {
             tasks={tasks}
             setTasks={setTasks}
             deleteTask={deleteTask}
-            updateTask={updateTask}
           />
         ))}
     </div>

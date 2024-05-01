@@ -1,7 +1,15 @@
 //todo : make the Task type in the home component and pass it here
 
-const updateTask = async (taskId: string, data: Task) => {
-  const response = await fetch(`http://localhost:5050/api/v2/task/${taskId}`, {
+// import { T_Task } from "../../components/TaskWrapper/task-wrapper";
+
+type typeTask = {
+  taskTitle: string,
+  completed: boolean,
+};
+
+
+const updateTask = async (taskId: string, data: typeTask) => {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/task/${taskId}`, {
     method: 'PUT',
     credentials: 'include',
     headers: {

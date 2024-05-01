@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import "./taskSearch.css";
 
+type TaskSearchProps = {
+  newTaskClicked: (value: boolean) => void;
+  onSearchTermChange: (term: string) => void;
+};
 
-const TaskSearch = ({newTaskClicked, onSearchTermChange}) => {
+const TaskSearch: React.FC<TaskSearchProps> = ({newTaskClicked, onSearchTermChange}) => {
   const [searchTerm, setSearchTerm] = useState("");
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newSearchTerm = e.target.value;

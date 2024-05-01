@@ -1,5 +1,5 @@
 const showTask = async () => {
-  const response = await fetch("http://localhost:5050/api/v2/tasks", {
+  const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/tasks`, {
     method: "GET",
     credentials: "include",  //! important to include credentials (cookies)
     headers: {

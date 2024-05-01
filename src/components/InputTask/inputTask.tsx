@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./inputTask.css";
 
 import { toast } from "react-toastify";
-import { Bounce } from 'react-toastify';
+import { Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type TaskInputProps = {
@@ -16,27 +16,41 @@ const TaskInput: React.FC<TaskInputProps> = ({
 }) => {
   const [title, setTitle] = useState("");
 
+  const notifySuccess = (message: string) =>
+    toast.success(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+    });
 
+  const notifyEmptyTask = (message: string) =>
+    toast.warn(message, {
+      position: "bottom-right",
+      autoClose: 2500, // use a number here
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce,
+      icon: () => <img src="./skull.svg" />,
 
-  const notifySuccess = (message: string) => toast.success(message, {
-    position: "bottom-right",
-    autoClose: 2500, // use a number here
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-    transition: Bounce,
-})
-
+    });
   const handleCreateTask = async (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault(); // prevent form submission
+    if (title === "") return notifyEmptyTask("EMPTY Like your brain");
     createTask(title);
     setTitle(""); // clear the input field
-    notifySuccess("Task Created Successfully")
+    notifySuccess("Task Created Successfully");
   };
 
   return (
