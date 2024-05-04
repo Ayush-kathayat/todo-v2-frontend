@@ -40,8 +40,7 @@ const TaskWrapper = () => {
     setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
 
     try {
-      const response = await fetch(
-        `http://localhost:5050/api/v2/task/${taskId}`,
+      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/task/${taskId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -62,7 +61,7 @@ const TaskWrapper = () => {
   };
 
   const createTask = async (task: string) => {
-    const response = await fetch("http://localhost:5050/api/v2/task", {
+    const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/v2/task`, {
       method: "POST",
       credentials: "include", // include credentials (cookies)
       headers: {
